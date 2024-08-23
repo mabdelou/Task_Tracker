@@ -1,0 +1,26 @@
+{
+    "tasks": [
+        {
+            "id": 1,
+            "discription": "mohammed abdelouafi",
+            "status": "done",
+            "createdAt": "2024-08-23 17:07:20.033195",
+            "updatedAt": "2024-08-23 17:12:02.681436"
+        },
+        {
+            "id": 3,
+            "discription": "test v1",
+            "status": "in-progress",
+            "createdAt": "2024-08-23 17:07:25.576449",
+            "updatedAt": "2024-08-23 17:12:15.710330"
+        },
+        {
+            "id": 5,
+            "discription": "test v1",
+            "status": "todo",
+            "createdAt": "2024-08-23 17:07:26.430951",
+            "updatedAt": "2024-08-23 17:07:26.430995"
+        }
+    ],
+    "next-index": 6
+}
