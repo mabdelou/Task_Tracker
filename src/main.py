@@ -24,9 +24,9 @@ def ft_help(mood:str):
         print("         INDEX: index of target task")
         print("         DISCRIPTION: discription of new task\n\n")
         print("for updating status of task to in-progress use this syntax:\n")
-        print("     EXECFILE update mark-in-progress INDEX\n\n")
+        print("     EXECFILE mark-in-progress INDEX\n\n")
         print("for updating status of task to done use this syntax:\n")
-        print("     EXECFILE update mark-done INDEX\n\n")
+        print("     EXECFILE mark-done INDEX\n\n")
     elif mood == "delete":
         print("for deleting task use this syntax:\n")
         print("     EXECFILE delete INDEX\n\n")
@@ -93,6 +93,8 @@ def update_task(mood:str, value: str, index: int) -> bool:
         ft_exit(5,"Index out of range")
     elif value == "":
         ft_exit(6,"Value should be not empty")
+    elif index < 0:
+        ft_exit(7,"Negative numbers are note valid")
     else: 
         with open(file=JSON_PATH,mode="r",encoding="utf-8") as create_json_file:
             old_data:dict = json.load(create_json_file)
@@ -115,7 +117,9 @@ def delete_task(index: int) -> bool:
     
     id:int = get_next_id()[0]
     if id == 1 or id < index:
-        ft_exit(8,"Index out of range")
+        ft_exit(9,"Index out of range")
+    elif index < 0:
+        ft_exit(10,"Negative numbers are note valid")
         
     else: 
         with open(file=JSON_PATH,mode="r",encoding="utf-8") as create_json_file:
@@ -135,7 +139,7 @@ def list_tasks(target:str|None=None):
     
     id:int = get_next_id()[1]
     if id == 0:
-        ft_exit(10,"No data was saved")
+        ft_exit(12,"No data was saved")
     else: 
         with open(file=JSON_PATH,mode="r",encoding="utf-8") as create_json_file:
             old_data:dict = json.load(create_json_file)
@@ -144,7 +148,7 @@ def list_tasks(target:str|None=None):
             elif target == "done" or target == "todo" or target == "in-progress":
                 print([task for task in old_data["tasks"] if task["status"] == target])
             else:
-                ft_exit(11,"invalid information")
+                ft_exit(13,"invalid information")
 
     return True
 
@@ -174,14 +178,14 @@ try:
         if len(sys.argv) == 3:
             delete_task(index=int(sys.argv[2]))
         else:
-            ft_exit(7,"Wrong number of arguments")
+            ft_exit(8,"Wrong number of arguments")
     elif sys.argv[1] == "list":
         if len(sys.argv) == 2:
             list_tasks()
         elif len(sys.argv) == 3:
             list_tasks(target=sys.argv[2])
         else:
-            ft_exit(9,"Wrong number of arguments")
+            ft_exit(11,"Wrong number of arguments")
     elif sys.argv[1] == "-h":
         if len(sys.argv) == 3:
             ft_help(mood=sys.argv[2])
