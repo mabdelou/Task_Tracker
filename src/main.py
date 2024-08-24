@@ -11,6 +11,32 @@ def ft_exit(exit_status:int, exit_msg:str):
     print(exit_msg)
     exit(exit_status)
 
+def ft_help(mood:str):
+    if mood == "add":
+        print("for adding new  task use this syntax:\n")
+        print("     EXECFILE add DISCRIPTION")
+        print("         EXECFILE: execution file")
+        print("         DISCRIPTION: discription of new task\n\n")
+    elif mood == "update":
+        print("for updating discription of task use this syntax:\n")
+        print("     EXECFILE update INDEX DISCRIPTION")
+        print("         EXECFILE: execution file")
+        print("         INDEX: index of target task")
+        print("         DISCRIPTION: discription of new task\n\n")
+        print("for updating status of task to in-progress use this syntax:\n")
+        print("     EXECFILE update mark-in-progress INDEX\n\n")
+        print("for updating status of task to done use this syntax:\n")
+        print("     EXECFILE update mark-done INDEX\n\n")
+    elif mood == "delete":
+        print("for deleting task use this syntax:\n")
+        print("     EXECFILE delete INDEX\n\n")
+        print("         EXECFILE: execution file")
+        print("         INDEX: index of target task")
+    elif mood == "list":
+        for array in ["","todo","in-progress","done"]:
+            print(f"for list all {array} tasks use this syntax:\n")
+            print(f"     EXECFILE list {array}\n\n")
+
 # get new id
 
 def get_next_id()-> tuple[int,int]:
@@ -122,35 +148,47 @@ def list_tasks(target:str|None=None):
 
     return True
 
-if sys.argv[1] == "add":
-    if len(sys.argv) == 3:
-        create_task(discreption=sys.argv[2])
+
+try:
+    if sys.argv[1] == "add":
+        if len(sys.argv) == 3:
+            create_task(discreption=sys.argv[2])
+        else:
+            ft_exit(1,"Wrong number of arguments")
+    elif sys.argv[1] == "update":
+        if len(sys.argv) == 4:
+            update_task(mood="update",value=sys.argv[3],index=int(sys.argv[2]) - 1)
+        else:
+            ft_exit(2,"Wrong number of arguments")
+    elif sys.argv[1] == "mark-in-progress":
+        if len(sys.argv) == 3:
+            update_task(mood="mark-in-progress",value="in-progress",index=int(sys.argv[2]) - 1)
+        else:
+            ft_exit(3,"Wrong number of arguments")
+    elif sys.argv[1] == "mark-done":
+        if len(sys.argv) == 3:
+            update_task(mood="mark-done",value="done",index=int(sys.argv[2]) - 1)
+        else:
+            ft_exit(4,"Wrong number of arguments")
+    elif sys.argv[1] == "delete":
+        if len(sys.argv) == 3:
+            delete_task(index=int(sys.argv[2]))
+        else:
+            ft_exit(7,"Wrong number of arguments")
+    elif sys.argv[1] == "list":
+        if len(sys.argv) == 2:
+            list_tasks()
+        elif len(sys.argv) == 3:
+            list_tasks(target=sys.argv[2])
+        else:
+            ft_exit(9,"Wrong number of arguments")
+    elif sys.argv[1] == "-h":
+        if len(sys.argv) == 3:
+            ft_help(mood=sys.argv[2])
+        else:
+            print("here is all available information:\n -h [add], [update], [delete], or [list]")
     else:
-        ft_exit(1,"Wrong number of arguments")
-elif sys.argv[1] == "update":
-    if len(sys.argv) == 4:
-        update_task(mood="update",value=sys.argv[3],index=int(sys.argv[2]) - 1)
-    else:
-        ft_exit(2,"Wrong number of arguments")
-elif sys.argv[1] == "mark-in-progress":
-    if len(sys.argv) == 3:
-        update_task(mood="mark-in-progress",value="in-progress",index=int(sys.argv[2]) - 1)
-    else:
-        ft_exit(3,"Wrong number of arguments")
-elif sys.argv[1] == "mark-done":
-    if len(sys.argv) == 3:
-        update_task(mood="mark-done",value="done",index=int(sys.argv[2]) - 1)
-    else:
-        ft_exit(4,"Wrong number of arguments")
-elif sys.argv[1] == "delete":
-    if len(sys.argv) == 3:
-        delete_task(index=int(sys.argv[2]))
-    else:
-        ft_exit(7,"Wrong number of arguments")
-elif sys.argv[1] == "list":
-    if len(sys.argv) == 2:
-        list_tasks()
-    elif len(sys.argv) == 3:
-        list_tasks(target=sys.argv[2])
-    else:
-        ft_exit(9,"Wrong number of arguments")
+        raise ValueError
+    
+except ValueError:
+    print("Wrong input please valid your input.\ncheck \"-h\" for more information about syntax")
