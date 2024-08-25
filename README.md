@@ -66,3 +66,7 @@ Make sure to add these properties to the JSON file when adding a new task and up
 
 
 [**check me**](https://roadmap.sh/projects/task-tracker) for more informations
+
+> **Rining**
+
+please instead of running ```task-cli ...``` run the source file using python3 or python ex: ```python src/main.py add "first task"```
